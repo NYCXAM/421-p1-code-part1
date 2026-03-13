@@ -260,7 +260,7 @@ def extract_planning_graph_stats(problem: PlanningProblem):
 
     return stats
 
-def generate_pg_plot(problem: PlanningProblem):
+def generate_pg_plot(pp: PlanningProblem):
     """
     Plotter function for extracted graph statistics
     No return object is necessary.
