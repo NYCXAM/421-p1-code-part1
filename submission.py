@@ -72,7 +72,26 @@ def rush_hour_4x4(initial: str, goals: str, domain_fluents: str) -> PlanningProb
         ),
         
         # BEGIN_YOUR_CODE
+        Action(
+            'MoveLeft(c, frm, to)',
+            precond=expr('At(c,frm) & Clear(to) & Horizontal(c) & AdjacentLeft(frm, to)'),
+            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
+            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
+        ),
 
+        Action(
+            'MoveUp(c, frm, to)',
+            precond=expr('At(c,frm) & Clear(to) & Horizontal(c) & AdjacentUp(frm, to)'),
+            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
+            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
+        ),
+
+        Action(
+            'MoveDown(c, frm, to)',
+            precond=expr('At(c,frm) & Clear(to) & Horizontal(c) & AdjacentDown(frm, to)'),
+            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
+            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
+        )
 
 
         # END_YOUR_CODE
