@@ -92,10 +92,7 @@ def rush_hour_4x4(initial: str, goals: str, domain_fluents: str) -> PlanningProb
             effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
             domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
         )
-
-
         # END_YOUR_CODE
-        
     ]
 
     # Build cell and adjacency facts.
@@ -122,9 +119,19 @@ def rush_hour_4x4(initial: str, goals: str, domain_fluents: str) -> PlanningProb
     adj_up_defs = ''
     
     # BEGIN_YOUR_CODE
-
-
-
+    adj_up = []
+    adj_down = []
+    for col in range(1, 5):
+        for row in range(1, 4):
+            frm = f'C{row}_{col}'
+            to = f'C{row+1}_{col}'
+            adj_up.append(f'AdjacentUp({frm}, {to})')
+        for row in range(2, 5):
+            frm = f'C{row}_{col}'
+            to = f'C{row-1}_{col}'
+            adj_down.append(f'AdjacentDown({frm}_{to})')
+    adj_up_defs = ' & ' .join(adj_up)
+    adj_down_defs = ' & '.join(adj_down)
     # END_YOUR_CODE
 
     domain_expr = expr(
@@ -272,6 +279,7 @@ def extract_planning_graph_stats(problem: PlanningProblem):
     stats = []
     
     # BEGIN_YOUR_CODE
+
 
     raise NotImplementedError()
        
