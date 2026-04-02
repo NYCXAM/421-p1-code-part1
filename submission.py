@@ -81,16 +81,16 @@ def rush_hour_4x4(initial: str, goals: str, domain_fluents: str) -> PlanningProb
 
         Action(
             'MoveUp(c, frm, to)',
-            precond=expr('At(c,frm) & Clear(to) & Horizontal(c) & AdjacentUp(frm, to)'),
-            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
-            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
+            precond=expr('At(c,frm) & Clear(to) & Vertical(c) & AdjacentUp(frm, to)'),
+            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) & ~Clear(to)'),
+            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentUp(frm, to)'),
         ),
 
         Action(
             'MoveDown(c, frm, to)',
-            precond=expr('At(c,frm) & Clear(to) & Horizontal(c) & AdjacentDown(frm, to)'),
-            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) &~Clear(to) '),
-            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentLeft(frm, to)'),
+            precond=expr('At(c,frm) & Clear(to) & Vertical(c) & AdjacentDown(frm, to)'),
+            effect=expr('At(c, to) & Clear(frm) & ~At(c, frm) & ~Clear(to)'),
+            domain=expr('Car(c) & Cell(frm) & Cell(to) & AdjacentDown(frm, to)'),
         )
         # END_YOUR_CODE
     ]
@@ -123,14 +123,14 @@ def rush_hour_4x4(initial: str, goals: str, domain_fluents: str) -> PlanningProb
     adj_down = []
     for col in range(1, 5):
         for row in range(1, 4):
+            frm = f'C{row+1}_{col}'
+            to = f'C{row}_{col}'
+            adj_up.append(f'AdjacentUp({frm}, {to})')
+        for row in range(1, 4):
             frm = f'C{row}_{col}'
             to = f'C{row+1}_{col}'
-            adj_up.append(f'AdjacentUp({frm}, {to})')
-        for row in range(2, 5):
-            frm = f'C{row}_{col}'
-            to = f'C{row-1}_{col}'
-            adj_down.append(f'AdjacentDown({frm}_{to})')
-    adj_up_defs = ' & ' .join(adj_up)
+            adj_down.append(f'AdjacentDown({frm}, {to})')
+    adj_up_defs = ' & '.join(adj_up)
     adj_down_defs = ' & '.join(adj_down)
     # END_YOUR_CODE
 
@@ -279,10 +279,12 @@ def extract_planning_graph_stats(problem: PlanningProblem):
     stats = []
     
     # BEGIN_YOUR_CODE
-
-
-    raise NotImplementedError()
-       
+    for level in planner.graph.levels:
+        n_facts = len(level.current_state)
+        n_actions = len(level.current_action_links)
+        n_state_mutex = len(level.state_mutexes)
+        n_action_mutex = len(level.action_mutexes)
+        stats.append((n_facts, n_actions, n_state_mutex, n_action_mutex))     
     # END_YOUR_CODE
 
     return stats
@@ -321,8 +323,15 @@ def list_landmarks() -> list:
     """
     
     # BEGIN_YOUR_CODE
-    
-    raise NotImplementedError()
+
+    return [
+        "At(R, C4_2)",
+        "At(R, C4_3)",
+        "At(R, C4_4)",
+        "At(A, C3_2)",
+        "At(D, C2_2)",
+        "At(B, C3_3)",
+    ]
     
     # END_YOUR_CODE
 
@@ -438,5 +447,6 @@ if __name__ == "__main__":
     """
     TESTING 1.3
     """
+    print("Test3")
     print(list_landmarks())
 
