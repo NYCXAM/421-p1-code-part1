@@ -299,7 +299,21 @@ def generate_pg_plot(pp: PlanningProblem):
     
     # BEGIN_YOUR_CODE
 
-    raise NotImplementedError()
+    levels = list(range(len(stats)))
+    facts = [t[0] for t in stats]
+    actions = [t[1] for t in stats]
+    mutexes = [t[2] + t[3] for t in stats]  # total mutex pairs (state+action)
+    plt.figure(figsize=(10, 6))
+    plt.plot(levels, facts, marker="o", label="Facts (state literals)")
+    plt.plot(levels, actions, marker="o", label="Applicable actions")
+    plt.plot(levels, mutexes, marker="o", label="Mutex pairs (state+action)")
+    plt.xlabel("Planning Graph Level")
+    plt.ylabel("Count")
+    plt.title("Complex Rush Hour Planning Graph Statistics")
+    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
    
     # END_YOUR_CODE
 
@@ -439,14 +453,33 @@ if __name__ == "__main__":
     """
     TESTING 1.2
     """
-    pp = simple_rush_hour_task()
-    generate_pg_plot(pp)
+    # pp = simple_rush_hour_task()
+    # generate_pg_plot(pp)
     pp = complex_rush_hour_task()
     generate_pg_plot(pp)
-    
     """
     TESTING 1.3
     """
-    print("Test3")
     print(list_landmarks())
+
+    """
+    Plot
+    """
+    # pp = complex_rush_hour_task()
+    # stats = extract_planning_graph_stats(pp)
+    # levels = list(range(len(stats)))
+    # facts = [t[0] for t in stats]
+    # actions = [t[1] for t in stats]
+    # mutexes = [t[2] + t[3] for t in stats]  # total mutex pairs (state+action)
+    # plt.figure(figsize=(10, 6))
+    # plt.plot(levels, facts, marker="o", label="Facts (state literals)")
+    # plt.plot(levels, actions, marker="o", label="Applicable actions")
+    # plt.plot(levels, mutexes, marker="o", label="Mutex pairs (state+action)")
+    # plt.xlabel("Planning Graph Level")
+    # plt.ylabel("Count")
+    # plt.title("Complex Rush Hour Planning Graph Statistics")
+    # plt.grid(True, linestyle="--", alpha=0.4)
+    # plt.legend()
+    # plt.tight_layout()
+    # plt.show()
 
